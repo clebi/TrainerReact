@@ -1,9 +1,13 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import TrainingListView from './TrainingsListView';
 import {ADD_TRAINING, trainingsReducer} from './TrainingsReducer';
+import {createStackNavigator} from '@react-navigation/stack';
+import {RootStackParamList} from './navigation';
+import {TrainingsScreen} from './TrainingsScreen';
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 const store = createStore(trainingsReducer);
 store.dispatch({
@@ -21,19 +25,15 @@ store.dispatch({
   payload: {title: 'Test 2', steps: [{duration: 250, power: 100}]},
 });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
 export default class Application extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <SafeAreaView style={styles.container}>
-          <TrainingListView />
-        </SafeAreaView>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Trainings" component={TrainingsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
