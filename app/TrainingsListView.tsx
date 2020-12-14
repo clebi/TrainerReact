@@ -1,8 +1,9 @@
 import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Pressable, FlatList, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect, ConnectedProps} from 'react-redux';
 import {TrainingsModel} from './models/Training';
+import {REMOVE_TRAINING} from './TrainingsReducer';
 
 const styles = StyleSheet.create({
   item: {
@@ -59,12 +60,20 @@ class TrainingListView extends React.Component<TrainingListViewProps> {
                   .map((step) => step.duration)
                   .reduce((previous, current) => previous + current, 0)}
               </Text>
-              <Icon name="delete-outline" size={25} />
+              <Pressable onPress={() => this.delete(item.index)}>
+                <Icon name="delete-outline" size={25} />
+              </Pressable>
             </View>
           )}
         />
       </View>
     );
+  }
+  delete(index: number) {
+    this.props.dispatch({
+      type: REMOVE_TRAINING,
+      payload: index,
+    });
   }
 }
 
