@@ -2,8 +2,8 @@ import React from 'react';
 import {Pressable, FlatList, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect, ConnectedProps} from 'react-redux';
-import {TrainingsModel} from './models/Training';
-import {REMOVE_TRAINING} from './TrainingsReducer';
+import {TrainingsModel} from '../models/Training';
+import {REMOVE_TRAINING} from '../TrainingsReducer';
 
 const styles = StyleSheet.create({
   item: {
@@ -77,4 +77,4 @@ class TrainingListView extends React.Component<TrainingListViewProps> {
   }
 }
 
-export const TrainingListViewContainer = connector(TrainingListView);
+export default connector(TrainingListView);

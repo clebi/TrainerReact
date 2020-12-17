@@ -5,7 +5,7 @@ import {createStore} from 'redux';
 import {ADD_TRAINING, trainingsReducer} from './TrainingsReducer';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './navigation';
-import {TrainingsScreen} from './TrainingsScreen';
+import TrainingsScreen from './TrainingsScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
