@@ -2,6 +2,7 @@ import React from 'react';
 import {Pressable, FlatList, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect, ConnectedProps} from 'react-redux';
+import {Dispatch} from 'redux';
 import {TrainingsModel} from '../models/Training';
 import {REMOVE_TRAINING} from '../TrainingsReducer';
 
@@ -37,7 +38,14 @@ const mapStateToProps = (state: TrainingsModel) => {
   return {trainings: state.trainings};
 };
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    removeTraining: (index: number) =>
+      dispatch({type: REMOVE_TRAINING, payload: index}),
+  };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type TrainingListViewProps = PropsFromRedux;
@@ -70,10 +78,7 @@ class TrainingListView extends React.Component<TrainingListViewProps> {
     );
   }
   delete(index: number) {
-    this.props.dispatch({
-      type: REMOVE_TRAINING,
-      payload: index,
-    });
+    this.props.removeTraining(index);
   }
 }
 
