@@ -3,8 +3,10 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity as Pressable, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect, ConnectedProps} from 'react-redux';
+import {Dispatch} from 'redux';
 import {AddTrainingModal} from './components/add-training-modal';
 import TrainingListView from './components/TrainingsListView';
+import {Training} from './models/Training';
 import {RootStackParamList} from './navigation';
 import {ADD_TRAINING} from './TrainingsReducer';
 
@@ -13,7 +15,14 @@ type TrainingsNavigationProp = StackNavigationProp<
   'Trainings'
 >;
 
-const connector = connect();
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    addTraining: (training: Training) =>
+      dispatch({type: ADD_TRAINING, payload: training}),
+  };
+};
+
+const connector = connect(null, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type TrainingsScreenProps = PropsFromRedux & {
@@ -60,14 +69,9 @@ class TrainingsScreen extends React.Component<
       ...this.state,
       addTrainingVisible: false,
     });
-    this.props.dispatch({
-      type: ADD_TRAINING,
-      payload: {title: name, steps: []},
-    });
+    this.props.addTraining({title: name, steps: []});
   }
 }
-
-export default connect()(TrainingsScreen);
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -104,3 +108,5 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
+
+export default connector(TrainingsScreen);

@@ -1,11 +1,11 @@
 import {AnyAction, Reducer} from 'redux';
-import {Training} from './models/Training';
+import {Training, TrainingModel} from './models/Training';
 
 export const ADD_TRAINING = 'training_add';
 export const REMOVE_TRAINING = 'training_remove';
 
-export const trainingsReducer: Reducer<Training[], AnyAction> = (
-  state: Training[] = [],
+export const trainingsReducer: Reducer<TrainingModel[], AnyAction> = (
+  state: TrainingModel[] = [],
   action: AnyAction,
 ) => {
   console.debug('trainings action: ', action);
