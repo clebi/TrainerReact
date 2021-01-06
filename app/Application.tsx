@@ -1,11 +1,12 @@
 import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {createStackNavigator} from '@react-navigation/stack';
-import {RootStackParamList} from './navigation';
-import TrainingsScreen from './TrainingsScreen';
 import {PersistGate} from 'redux-persist/integration/react';
-import {storeInit, persistInit} from './configure-store';
+import {persistInit, storeInit} from './configure-store';
+import {RootStackParamList} from './navigation';
+import TrainingScreen from './TrainingScreen';
+import TrainingsScreen from './TrainingsScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const store = storeInit();
@@ -17,8 +18,13 @@ export default class Application extends React.Component {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName="Trainings">
               <Stack.Screen name="Trainings" component={TrainingsScreen} />
+              <Stack.Screen
+                name="Training"
+                component={TrainingScreen}
+                options={({route}) => ({title: route.params.training.title})}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {combineReducers, createStore, Store} from 'redux';
+import {AnyAction, combineReducers, createStore, Store} from 'redux';
 import {persistReducer, persistStore} from 'redux-persist';
+import {TrainingModel} from './models/Training';
 import {trainingsReducer} from './TrainingsReducer';
 
 const persistConfig = {
@@ -8,7 +9,11 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const rootReducer = combineReducers({
+export interface RootState {
+  trainings: TrainingModel[];
+}
+
+const rootReducer = combineReducers<RootState, AnyAction>({
   trainings: trainingsReducer,
 });
 

@@ -3,8 +3,61 @@ import {Pressable, FlatList, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect, ConnectedProps} from 'react-redux';
 import {Dispatch} from 'redux';
-import {TrainingsModel} from '../models/Training';
+import {RootState} from '../configure-store';
+import {TrainingModel} from '../models/Training';
 import {REMOVE_TRAINING} from '../TrainingsReducer';
+
+const mapStateToProps = (state: RootState) => {
+  return {trainings: state.trainings};
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    removeTraining: (index: number) =>
+      dispatch({type: REMOVE_TRAINING, payload: index}),
+  };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type TrainingListViewProps = PropsFromRedux & {
+  selectTraining: (training: TrainingModel) => void;
+};
+
+class TrainingListView extends React.Component<TrainingListViewProps> {
+  constructor(props: TrainingListViewProps) {
+    super(props);
+  }
+  render() {
+    return (
+      <View>
+        <FlatList
+          data={this.props.trainings}
+          renderItem={(listItem) => (
+            <Pressable
+              style={styles.item}
+              onPress={() => this.props.selectTraining(listItem.item)}>
+              <Text style={styles.title}>{listItem.item.title}</Text>
+              <Text style={styles.duration}>
+                duration:{' '}
+                {listItem.item.steps
+                  .map((step) => step.duration)
+                  .reduce((previous, current) => previous + current, 0)}
+              </Text>
+              <Pressable onPress={() => this.delete(listItem.index)}>
+                <Icon name="delete-outline" size={25} />
+              </Pressable>
+            </Pressable>
+          )}
+        />
+      </View>
+    );
+  }
+  delete(index: number) {
+    this.props.removeTraining(index);
+  }
+}
 
 const styles = StyleSheet.create({
   item: {
@@ -33,53 +86,5 @@ const styles = StyleSheet.create({
     width: '30%',
   },
 });
-
-const mapStateToProps = (state: TrainingsModel) => {
-  return {trainings: state.trainings};
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    removeTraining: (index: number) =>
-      dispatch({type: REMOVE_TRAINING, payload: index}),
-  };
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-type TrainingListViewProps = PropsFromRedux;
-
-class TrainingListView extends React.Component<TrainingListViewProps> {
-  constructor(props: TrainingListViewProps) {
-    super(props);
-  }
-  render() {
-    return (
-      <View>
-        <FlatList
-          data={this.props.trainings}
-          renderItem={(item) => (
-            <View style={styles.item}>
-              <Text style={styles.title}>{item.item.title}</Text>
-              <Text style={styles.duration}>
-                duration:{' '}
-                {item.item.steps
-                  .map((step) => step.duration)
-                  .reduce((previous, current) => previous + current, 0)}
-              </Text>
-              <Pressable onPress={() => this.delete(item.index)}>
-                <Icon name="delete-outline" size={25} />
-              </Pressable>
-            </View>
-          )}
-        />
-      </View>
-    );
-  }
-  delete(index: number) {
-    this.props.removeTraining(index);
-  }
-}
 
 export default connector(TrainingListView);

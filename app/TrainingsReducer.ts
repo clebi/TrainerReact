@@ -11,7 +11,11 @@ export const trainingsReducer: Reducer<TrainingModel[], AnyAction> = (
   console.debug('trainings action: ', action);
   switch (action.type) {
     case ADD_TRAINING:
-      let training = action.payload as Training;
+      const training = action.payload as Training;
+      const key = `t_${training.title.toLowerCase().replace(/\s/, '')}`;
+      if (state.find((item) => item.key === key) !== undefined) {
+        throw Error('Already have training with same key');
+      }
       return [
         ...state,
         {

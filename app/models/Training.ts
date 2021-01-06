@@ -11,7 +11,3 @@ export interface Training {
 export interface TrainingModel extends Training {
   key: string;
 }
-
-export interface TrainingsModel {
-  trainings: TrainingModel[];
-}

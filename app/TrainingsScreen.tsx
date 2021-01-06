@@ -46,7 +46,11 @@ class TrainingsScreen extends React.Component<
   render() {
     return (
       <View style={styles.container}>
-        <TrainingListView />
+        <TrainingListView
+          selectTraining={(training) =>
+            this.props.navigation.navigate('Training', {training})
+          }
+        />
         <Pressable
           style={styles.addButton}
           onPress={() => this.newTrainingModal()}>
@@ -69,7 +73,11 @@ class TrainingsScreen extends React.Component<
       ...this.state,
       addTrainingVisible: false,
     });
-    this.props.addTraining({title: name, steps: []});
+    try {
+      this.props.addTraining({title: name, steps: []});
+    } catch (e: any) {
+      console.warn(e);
+    }
   }
 }
 
