@@ -7,6 +7,7 @@ import {persistInit, storeInit} from './configure-store';
 import {RootStackParamList} from './navigation';
 import TrainingScreen from './TrainingScreen';
 import TrainingsScreen from './TrainingsScreen';
+import TrainingStepScreen from './TrainingStepScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const store = storeInit();
@@ -24,6 +25,10 @@ export default class Application extends React.Component {
                 name="Training"
                 component={TrainingScreen}
                 options={({route}) => ({title: route.params.training.title})}
+              />
+              <Stack.Screen
+                name="TrainingStep"
+                component={TrainingStepScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>

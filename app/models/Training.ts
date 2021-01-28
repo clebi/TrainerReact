@@ -3,6 +3,10 @@ export interface Step {
   power: number;
 }
 
+export interface StepModel extends Step {
+  key: string;
+}
+
 export interface Training {
   title: string;
   steps: Step[];

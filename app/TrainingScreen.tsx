@@ -1,7 +1,8 @@
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from './configure-store';
 import {RootStackParamList} from './navigation';
@@ -33,7 +34,11 @@ class TrainingScreen extends React.Component<TrainingScreenProps> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.props.route.params.training.title}</Text>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => this.props.navigation.navigate('TrainingStep', {})}>
+          <Icon name="add-circle" size={75} color="#01a699" />
+        </Pressable>
       </View>
     );
   }
@@ -43,6 +48,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 22,
+  },
+  addButton: {
+    width: 70,
+    position: 'absolute',
+    bottom: 30,
+    right: 25,
+    height: 70,
+    borderRadius: 30,
   },
 });
 
