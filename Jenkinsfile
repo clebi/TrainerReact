@@ -1,11 +1,11 @@
 node {
-    stage('Checkout') {
-        checkout scm
+    agent {
+        docker { image 'node:14-alpine' }
     }
     stage('Install dependencies') {
-        npm install
+        sh 'npm install'
     }
     stage('Lint') {
-        npm run lint
+        sh 'npm run lint'
     }
 }
